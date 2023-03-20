@@ -52,3 +52,6 @@ MonoBehaviour:
   - {fileID: 4800594137974928637, guid: 795dab5b2db08a54b8b6cb9ff2170459, type: 3}
   - {fileID: 3509407304454940702, guid: 64e38186ee10b3c479902d436461696e, type: 3}
   - {fileID: 5403062204833626942, guid: 76f0697095738084da5cde0b13006e37, type: 3}
+  maxMovements: 15
+  movementSpeed: 0.5
+  fastMovementSpeed: 0.05
