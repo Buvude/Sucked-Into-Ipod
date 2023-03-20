@@ -36,7 +36,7 @@ public class ButtonCustom : MonoBehaviour
     {
         if (!pressed)
         {
-            player.velocity = new Vector3(0, player.velocity.y, 0);
+            //player.velocity = new Vector3(0, player.velocity.y, 0);
         }
     }
 
