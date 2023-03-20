@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PieceMovement : MonoBehaviour
 {
@@ -24,20 +25,30 @@ public class PieceMovement : MonoBehaviour
     {
         foreach (Transform transform in children)
         {
-            Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - raycastLength, transform.position.z), Color.yellow);
-            Debug.DrawLine(transform.position, new Vector3(transform.position.x + raycastLength, transform.position.y, transform.position.z), Color.yellow);
-            Debug.DrawLine(transform.position, new Vector3(transform.position.x - raycastLength, transform.position.y, transform.position.z), Color.yellow);
+            if (transform.parent != null)
+            {
+                Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - raycastLength, transform.position.z), Color.yellow);
+                Debug.DrawLine(transform.position, new Vector3(transform.position.x + raycastLength, transform.position.y, transform.position.z), Color.yellow);
+                Debug.DrawLine(transform.position, new Vector3(transform.position.x - raycastLength, transform.position.y, transform.position.z), Color.yellow);
+            }
+                
         }
         foreach (Transform transform in children)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, raycastLength, 1 << LayerMask.NameToLayer("Floor"));
-            if (hit)
+            if (transform.parent != null)
             {
-                hitGround = true;
-            }
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, raycastLength, 1 << LayerMask.NameToLayer("Floor"));
+                if (hit)
+                {
+                    hitGround = true;
+                }
+            }   
         }
 
-
+        if (transform.position.y > gm.boardCeiling - 2 && hitGround)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
     private IEnumerator RandomMovement()
     {
@@ -47,16 +58,20 @@ public class PieceMovement : MonoBehaviour
             var rand = Random.Range(0, 3);
             foreach (Transform transform in children)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
-                RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
-                if (hit) //bout to hit left
+                if (transform.parent != null)
                 {
-                    hitLeft = true;
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
+                    RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
+                    if (hit) //bout to hit left
+                    {
+                        hitLeft = true;
+                    }
+                    if (hit2)//bout to hit right
+                    {
+                        hitRight = true;
+                    }
                 }
-                if (hit2)//bout to hit right
-                {
-                    hitRight = true;
-                }
+
             }
             switch (rand)
             {
@@ -87,16 +102,20 @@ public class PieceMovement : MonoBehaviour
             var rand = Random.Range(0, 3);
             foreach (Transform transform in children)
             {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
-                RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
-                if (hit) //bout to hit left
+                if (transform.parent != null)
                 {
-                    hitLeft = true;
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
+                    RaycastHit2D hit2 = Physics2D.Raycast(transform.position, Vector2.right, raycastLength, 1 << LayerMask.NameToLayer("Wall"));
+                    if (hit) //bout to hit left
+                    {
+                        hitLeft = true;
+                    }
+                    if (hit2)//bout to hit right
+                    {
+                        hitRight = true;
+                    }
                 }
-                if (hit2)//bout to hit right
-                {
-                    hitRight = true;
-                }
+
             }
             switch (rand)
             {
@@ -136,6 +155,7 @@ public class PieceMovement : MonoBehaviour
             {
                 transform.gameObject.layer = 6;
             }
+            transform.gameObject.layer = 0;
             yield return null;
         }
         

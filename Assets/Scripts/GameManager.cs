@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public float fastMovementSpeed;
     private GameObject currentBlock;
     //private const float boardFloor = -4.5f;
-    private const float boardCeiling = 5.5f;
+    public float boardCeiling = 7f;
     
     private void Start()
     {
